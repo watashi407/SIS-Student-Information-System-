@@ -7,27 +7,37 @@ class CreateModal extends Component {
         super(props);
 
         this.state = {
-            StudentName: null,
-            StudentId: null,
+            // StudentId: null,
+            Enroll: null,
             College: null,
             Program: null,
-            CoruseCode: null,
-            CourseName: null,
+            Course: null,
+            college: [],
+            program: [],
+            cns: [],
+            enroll: [],
         };
     }
 
+    componentDidMount() {
+        this.getCollegeList();
+        this.getProgramList();
+        this.getCourseList();
+        this.getEnrollList();
+    }
+
     // create data
-    inputStudentName = (event) => {
+    inputEnroll = (event) => {
         this.setState({
-            StudentName: event.target.value,
+            Enroll: event.target.value,
         });
     };
 
-    inputStudentId = (event) => {
-        this.setState({
-            StudentId: event.target.value,
-        });
-    };
+    // inputStudentId = (event) => {
+    //     this.setState({
+    //         StudentId: event.target.value,
+    //     });
+    // };
 
     inputCollege = (event) => {
         this.setState({
@@ -41,36 +51,76 @@ class CreateModal extends Component {
         });
     };
 
-    inputCoruseCode = (event) => {
+    inputCourse = (event) => {
         this.setState({
-            CoruseCode: event.target.value,
-        });
-    };
-
-    inputCourseName = (event) => {
-        this.setState({
-            CourseName: event.target.value,
+            CourseCode: event.target.value,
         });
     };
 
     createStudentData = () => {
         axios
             .post("/create/student/data", {
-                StudentId: this.state.StudentId,
-                StudentName: this.state.StudentName,
+                // StudentId: this.state.StudentId,
+                Enroll: this.state.Enroll,
                 College: this.state.College,
                 Program: this.state.Program,
-                CoruseCode: this.state.CoruseCode,
-                CourseName: this.state.CourseName,
+                Course: this.state.CourseCode,
             })
             .then((response) => {
                 console.log(response);
-                // toast.success("Student Info Created!");
-                // setTimeout(() => {
-                //     location.reload();
-                // }, 2500);
-                // location.reload();
+                toast.success("Student Info Created!");
+                setTimeout(() => {
+                    location.reload();
+                }, 2500);
+                location.reload();
             });
+    };
+
+    // get colleges
+    getCollegeList = () => {
+        let self = this;
+        axios.get("/get/college/list").then(function (response) {
+            console.log(response);
+            self.setState({
+                college: response.data,
+            });
+        });
+    };
+
+    // get program
+
+    getProgramList = () => {
+        let self = this;
+        axios.get("/get/program/list").then(function (response) {
+            console.log(response);
+            self.setState({
+                program: response.data,
+            });
+        });
+    };
+
+    // get course
+
+    getCourseList = () => {
+        let self = this;
+        axios.get("/get/course/list").then(function (response) {
+            console.log(response);
+            self.setState({
+                cns: response.data,
+            });
+        });
+    };
+
+    // get ernolls
+
+    getEnrollList = () => {
+        let self = this;
+        axios.get("/get/enroll/list").then(function (response) {
+            console.log(response);
+            self.setState({
+                enroll: response.data,
+            });
+        });
     };
 
     render() {
@@ -109,72 +159,125 @@ class CreateModal extends Component {
                                     aria-label="Close"
                                 ></button>
                             </div>
+
+                            {/* studentName input */}
                             <div className="modal-body">
                                 <form className="form ">
+                                    {/* studentCollege input */}
                                     <div className="form-floating mb-3">
-                                        <input
-                                            type="number"
-                                            className="form-control"
-                                            id="StudentName"
-                                            placeholder="Student Number here"
-                                            onChange={this.inputStudentId}
-                                        />
-                                        <label>Student Name</label>
+                                        <select
+                                            className="form-select"
+                                            id="Enroll"
+                                            aria-label="Floating label select example"
+                                            onChange={this.inputEnroll}
+                                            defaultValue={"DEFAULT"}
+                                        >
+                                            <option value="DEFAULT" disabled>
+                                                Select Student
+                                            </option>
+                                            {this.state.enroll.map((item) => {
+                                                return (
+                                                    <>
+                                                        <option
+                                                            value={item.id}
+                                                            key={item.id}
+                                                        >
+                                                            {item.studentN}
+                                                        </option>
+                                                    </>
+                                                );
+                                            })}
+                                        </select>
+
+                                        <label>Enrolled Student</label>
                                     </div>
 
+                                    {/* studentCollege input */}
                                     <div className="form-floating mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="StudentName"
-                                            placeholder="Student Name here"
-                                            onChange={this.inputStudentName}
-                                        />
-                                        <label>Student Name</label>
-                                    </div>
-
-                                    <div className="form-floating mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
+                                        <select
+                                            className="form-select"
                                             id="College"
-                                            placeholder="College"
+                                            aria-label="Floating label select example"
                                             onChange={this.inputCollege}
-                                        />
+                                            defaultValue={"DEFAULT"}
+                                        >
+                                            <option value="DEFAULT" disabled>
+                                                Select College
+                                            </option>
+                                            {this.state.college.map((item) => {
+                                                return (
+                                                    <>
+                                                        <option
+                                                            value={item.id}
+                                                            key={item.id}
+                                                        >
+                                                            {item.collegeName}
+                                                        </option>
+                                                    </>
+                                                );
+                                            })}
+                                        </select>
+
                                         <label>College</label>
                                     </div>
 
+                                    {/* sudentProgram input */}
                                     <div className="form-floating mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
+                                        <select
+                                            className="form-select"
                                             id="Program"
-                                            placeholder="Program"
+                                            aria-label="Floating label select example"
                                             onChange={this.inputProgram}
-                                        />
+                                            defaultValue={"DEFAULT"}
+                                        >
+                                            <option value="DEFAULT" disabled>
+                                                Select Program
+                                            </option>
+                                            {this.state.program.map((item) => {
+                                                return (
+                                                    <>
+                                                        <option
+                                                            value={item.id}
+                                                            key={item.id}
+                                                        >
+                                                            {item.programName}
+                                                        </option>
+                                                    </>
+                                                );
+                                            })}
+                                        </select>
+
                                         <label>Program</label>
                                     </div>
 
-                                    <div className="form-floating mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="CoruseCode"
-                                            placeholder="Course Code"
-                                            onChange={this.inputCoruseCode}
-                                        />
-                                        <label>Course Code</label>
-                                    </div>
+                                    {/* sudentProgram input */}
 
                                     <div className="form-floating mb-3">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="CourseName"
-                                            placeholder="Course Name"
-                                            onChange={this.inputCourseName}
-                                        />
-                                        <label>CourseName</label>
+                                        <select
+                                            className="form-select"
+                                            id="CourseCode"
+                                            aria-label="Floating label select example"
+                                            onChange={this.inputCourse}
+                                            defaultValue={"DEFAULT"}
+                                        >
+                                            <option value="DEFAULT" disabled>
+                                                Select Course
+                                            </option>
+                                            {this.state.cns.map((item) => {
+                                                return (
+                                                    <>
+                                                        <option
+                                                            value={item.id}
+                                                            key={item.id}
+                                                        >
+                                                            {item.courseName}
+                                                        </option>
+                                                    </>
+                                                );
+                                            })}
+                                        </select>
+
+                                        <label>COURSE </label>
                                     </div>
                                 </form>
                             </div>

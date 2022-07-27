@@ -4,17 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\colleges;
-use App\Models\programs;
-use App\Models\cns;
-use App\Models\enrolls;
 
-
-class Student extends Model
+class offers extends Model
 {
     use HasFactory;
-    protected $fillable = [
-            'enroll_id',
+        protected $fillable = [
             'college_id',
             'program_id',
             'cn_id',
@@ -23,16 +17,11 @@ class Student extends Model
     protected $with = [
             'colleges',
             'programs',
-            'cns',
-            'enrolls'
+            'cns'
     ];
 
 
 
-    
-    public function enrolls() {
-        return $this->belongsTo(enrolls::class,'enroll_id','id');
-    }
 
     public function cns() {
         return $this->belongsTo(cns::class,'cn_id','id');

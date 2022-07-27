@@ -10,9 +10,11 @@ class StudentTable extends Component {
             <>
                 <tr>
                     <th scope="row">{this.props.data.id}</th>
-                    <td width="150px">{this.props.data.studentId}</td>
-                    <td width="450px">{this.props.data.studentName}</td>
-                    <td width="150px">{this.props.data.college}</td>
+                    <td width="150px">{this.props.data.enrolls.id}</td>
+                    <td width="450px">{this.props.data.enrolls.studentN}</td>
+                    <td width="150px">
+                        {this.props.data.colleges.collegeName}
+                    </td>
                     {/* <td width="150px">{this.props.data.program}</td>
                     <td width="350px">{this.props.data.coruseCode}</td>
                     <td width="250px">{this.props.data.courseName}</td>

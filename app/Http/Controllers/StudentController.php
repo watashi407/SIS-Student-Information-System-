@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use Log;
 use Exception;
 use App\Models\Student;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
+use App\Models\colleges;
+use App\Models\programs;
+use App\Models\cns;
+use App\Models\enrolls;
+use App\Models\offers;
 
 class StudentController extends Controller
 {
@@ -72,8 +78,8 @@ class StudentController extends Controller
                 Student::where('id',$id)->update(
                     [
                         'studentName' =>  $StudentName,
-                        'college' => $College,
-                        'program' => $Program,
+                        'college_id' => $College,
+                        'program_id' => $Program,
                         'coruseCode' =>  $CoruseCode,
                         'courseName' =>  $CourseName,
                         'studentId' =>  $StudentNum
@@ -81,8 +87,8 @@ class StudentController extends Controller
                     );
                     return response()->json([
                         'studentName' =>  $StudentName,
-                        'college' => $College,
-                        'program' => $Program,
+                        'college_id' => $College,
+                        'program_id' => $Program,
                         'coruseCode' =>  $CoruseCode,
                         'courseName' =>  $CourseName,
                         'studentId' =>  $StudentNum
@@ -95,7 +101,12 @@ class StudentController extends Controller
     }
 
 
-      public function destroy(Student $student)
+    // Create Student With data
+
+
+
+    // delete data
+    public function destroy(Student $student)
     {
         try
         {
@@ -108,38 +119,40 @@ class StudentController extends Controller
         }
     }
 
+
+    // create student
+
     public function studentCreate(Request $request)
     {
         try
         {       
-                $StudentId= $request->get('StudentId');
-                $StudentName=$request->get('StudentName');
+
+                
+                $enroll_id=$request->get('Enroll');
                 $College=$request->get('College');
                 $Program=$request->get('Program');
-                $CoruseCode=$request->get('CoruseCode');
-                $CourseName=$request->get('CourseName');
+                $Course=$request->get('Course');
+
 
             
 
                 Student::create(
                     [
-                        'studentId' =>  $StudentId,
-                        'studentName' =>  $StudentName,
-                        'college' => $College,
-                        'program' => $Program,
-                        'coruseCode' =>  $CoruseCode,
-                        'courseName' =>  $CourseName,
+
+                        'enroll_id' =>  $enroll_id,
+                        'college_id' => $College,
+                        'program_id' => $Program,
+                        'cn_id' =>  $Course,
                     
                     ]
                     );
                     return response()->json([
                         
-                        'studentId' =>  $StudentId,
-                        'studentName' =>  $StudentName,
-                        'college' => $College,
-                        'program' => $Program,
-                        'coruseCode' =>  $CoruseCode,
-                        'courseName' =>  $CourseName,
+                        'enroll_id' =>  $enroll_id,
+                        'college_id' => $College,
+                        'program_id' => $Program,
+                        'cn_id' =>  $Course,
+
                         
                     ]);
         }
@@ -150,5 +163,123 @@ class StudentController extends Controller
     }
 
 
+    // enroll student
+
+        public function studentEnroll(Request $request)
+    {
+        try
+        {       
+
+                
+	            $ids = IdGenerator::generate(['table' => 'students', 'length' => 8, 'prefix' => date('y')]);
+                $studentN=$request->get('StudentN');
+
+
+
+            
+
+                enrolls::create(
+                    [
+      
+                    'studentN' =>  $studentN,
+                    
+                    ]
+                    );
+                    return response()->json([
+       
+                        'studentN' =>  $studentN,
+                        
+                    ]);
+        }
+        catch(Exception $e)
+        {
+            Log::error($e);
+        }
+    }
+    // get college 
     
+        public function getCollegeList()
+    {
+        try
+        {
+        $colleges = colleges::orderBy('id','DESC')->get();
+        return response()->json($colleges);
+        }
+        catch(Exception $e)
+        {
+            Log::error($e);
+        }
+    }
+
+
+    // get program
+
+            public function getProgramList()
+    {
+        try
+        {
+        $programs = programs::orderBy('id','DESC')->get();
+        return response()->json($programs);
+        }
+        catch(Exception $e)
+        {
+            Log::error($e);
+        }
+    }
+
+
+    
+    // get program
+
+            public function getCourseList()
+    {
+        try
+        {
+        $cns = cns::orderBy('id','DESC')->get();
+        return response()->json($cns);
+        }
+        catch(Exception $e)
+        {
+            Log::error($e);
+        }
+    }
+
+        // get enrolls
+
+            public function getEnrollList()
+    {
+        try
+        {
+        $cns = enrolls::orderBy('id','DESC')->get();
+        return response()->json($cns);
+        }
+        catch(Exception $e)
+        {
+            Log::error($e);
+        }
+    }
+
+
+        // View offers
+
+
+// get colleges
+    public function test(){
+         return colleges::find(1)->getPrograms;
+    }
+
+
+        public function getOfferDetails(Request $request)
+    {
+        try
+        {
+        // $offerData = 
+       return colleges::find($request->get('offerID'))->getPrograms;
+        // return response()->json($offerData);
+        }
+        catch(Exception $e)
+        {
+            Log::error($e);
+        }
+    }
 }

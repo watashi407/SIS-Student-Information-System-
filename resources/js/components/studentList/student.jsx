@@ -3,6 +3,8 @@ import Table from "./studentTable";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateModal from "./modals/createModal";
+import EnrollModal from "./modals/enrollModal";
+import Offers from "./modals/offersModal";
 
 class StudentContent extends Component {
     constructor(props) {
@@ -10,21 +12,34 @@ class StudentContent extends Component {
 
         this.state = {
             student: [],
+            college: [],
         };
     }
 
     // life cylce method
     componentDidMount() {
         this.getStudentList();
+        this.getCollegeList();
     }
 
     //get student list
     getStudentList = () => {
         let self = this;
         axios.get("/get/student/list").then(function (response) {
-            // console.log(response);
+            console.log(response);
             self.setState({
                 student: response.data,
+            });
+        });
+    };
+
+    // get college list
+
+    getCollegeList = () => {
+        let self = this;
+        axios.get("/get/college/list").then(function (response) {
+            self.setState({
+                college: response.data,
             });
         });
     };
@@ -36,9 +51,19 @@ class StudentContent extends Component {
                     <div className="col-md-12 mx-auto">
                         <div className="card">
                             <div className="card-header">
-                                <span>STUDENT LIST</span>
+                                <span className="fw-bold float-start">
+                                    STUDENT LIST
+                                </span>
+                                <span>
+                                    <EnrollModal />
+                                </span>
                                 <span>
                                     <CreateModal />
+                                </span>
+                                <span>
+                                    {this.state.college.map(function (x, i) {
+                                        return <Offers key={i} data={x} />;
+                                    })}
                                 </span>
                             </div>
                             <div className="card-body">

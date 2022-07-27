@@ -214,7 +214,7 @@ class updateModal extends Component {
                                                 value={
                                                     this.state.StudentId ?? ""
                                                 }
-                                                onChange={this.inputStudentId}
+                                                onChange={this.inputCN}
                                             />
                                             <label className="text-start">
                                                 Student Number

@@ -12,8 +12,7 @@ class TableAction extends Component {
             currentStudentId: null,
             currentCollege: null,
             currentProgram: null,
-            currentCoruseCode: null,
-            currentCourseName: null,
+            currentCourse: null,
         };
     }
 
@@ -25,13 +24,12 @@ class TableAction extends Component {
             })
             .then((response) => {
                 this.setState({
-                    currentStudentNumber: response.data.studentId,
-                    currentStudentName: response.data.studentName,
-                    currentStudentId: response.data.studentId,
-                    currentCollege: response.data.college,
-                    currentProgram: response.data.program,
-                    currentCoruseCode: response.data.coruseCode,
-                    currentCourseName: response.data.courseName,
+                    currentStudentNumber: response.data.enrolls.id,
+                    currentStudentName: response.data.enrolls.studentN,
+                    currentStudentId: response.data.enrolls.id,
+                    currentCollege: response.data.colleges.collegeName,
+                    currentProgram: response.data.programs.programName,
+                    currentCourse: response.data.cns.courseCode,
                 });
                 console.log(response.data);
             });
@@ -45,13 +43,12 @@ class TableAction extends Component {
             })
             .then((response) => {
                 this.setState({
-                    currentStudentNumber: response.data.studentId,
-                    currentStudentName: response.data.studentName,
-                    currentStudentId: response.data.studentId,
-                    currentCollege: response.data.college,
-                    currentProgram: response.data.program,
-                    currentCoruseCode: response.data.coruseCode,
-                    currentCourseName: response.data.courseName,
+                    currentStudentNumber: response.data.enrolls.id,
+                    currentStudentName: response.data.enrolls.studentN,
+                    currentStudentId: response.data.enrolls.id,
+                    currentCollege: response.data.colleges.collegeName,
+                    currentProgram: response.data.program_id,
+                    currentCourse: response.data.cn_id,
                 });
                 console.log(response.data);
             });

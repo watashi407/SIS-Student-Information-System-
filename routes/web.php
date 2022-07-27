@@ -39,3 +39,25 @@ Route::delete('/delete/student/data/{student}',
 
 Route::post('/create/student/data',
 [StudentController::class, 'studentCreate']);
+
+Route::get('/get/college/list',
+[StudentController::class, 'getCollegeList'])->name('college.list');
+
+Route::get('/get/program/list',
+[StudentController::class, 'getProgramList'])->name('program.list');
+
+Route::get('/get/course/list',
+[StudentController::class, 'getCourseList'])->name('course.list');
+
+Route::post('/enroll/student/data',
+[StudentController::class, 'studentEnroll']);
+
+Route::get('/get/enroll/list',
+[StudentController::class, 'getEnrollList'])->name('enroll.list');
+
+
+// Route::get('/get/offer/list',
+// [StudentController::class, 'test']);
+
+Route::post('/get/offer/list',
+[StudentController::class, 'getOfferDetails'])->name('offer.details');

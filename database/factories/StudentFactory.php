@@ -16,12 +16,12 @@ class StudentFactory extends Factory
         return [
            'studentId' => $this->faker->numberBetween(2000000,2500000),
            'studentName' => $this->faker->name(),
-           'college' => $this->faker->randomElement([
+           'college_id' => $this->faker->randomElement([
             'CAS',
             'COED',
             'CME',
            ]),
-           'program' =>$this->faker->randomElement([
+           'program_id' =>$this->faker->randomElement([
             'BSIT',
             'BSED',
             'BSTM',

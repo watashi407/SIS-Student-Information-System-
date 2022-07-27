@@ -51,13 +51,9 @@ class ViewModal extends Component {
                         <br />
                         <strong>
                             Course Code: &nbsp;
-                            {this.props.studentDetails.currentCoruseCode}
+                            {this.props.studentDetails.currentCourse}
                         </strong>
                         <br />
-                        <strong>
-                            Course Name: &nbsp;
-                            {this.props.studentDetails.currentCourseName}
-                        </strong>
                     </div>
                 </div>
             </>
